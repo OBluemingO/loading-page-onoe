@@ -10,10 +10,10 @@ function App() {
     <>
       <SectionOne />
       <SectionSecond />
-      <SectionThrid />
+      <SectionThrid section={'products'} />
       <BothSection direction={'left'} />
       <BothSection direction={'right'} />
-      <SectionThrid />
+      <SectionThrid section={'client'} />
     </>
   )
 }

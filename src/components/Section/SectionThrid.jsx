@@ -4,6 +4,7 @@ import { useRef } from "react";
 import styled from "styled-components";
 import Arrow from "../../assets/svgs/Arrow";
 import useFetch from "../../hook/useFetch";
+import CardCilent from "../Card/CardCilent";
 import CardProducts from "../Card/CardProducts";
 import { TitleText } from "../styedGobals";
 const Contaienr = styled.div`
@@ -73,7 +74,7 @@ const ButtonViewMore = styled.div`
   cursor: pointer;
 `;
 
-const SectionThrid = () => {
+const SectionThrid = ({ section }) => {
   const [pressed, setPressed] = useState(false);
   const [startX, setStartX] = useState(null);
   const [categories, setCategories] = useState("electronics");
@@ -85,20 +86,19 @@ const SectionThrid = () => {
   const handleMouseDownWrpperSliceRef = (e) => {
     setPressed(true);
     setStartX(e.pageX - sliceRef.current.offsetLeft);
-    if(data.length !== 4) wrpperSliceRef.current.style.cursor = "grabbing";
+    if (data.length !== 4) wrpperSliceRef.current.style.cursor = "grabbing";
   };
 
   const handleMouseUpWrpperSliceRef = (e) => {
     setPressed(false);
-    if(data.length !== 4) wrpperSliceRef.current.style.cursor = "grab";
+    if (data.length !== 4) wrpperSliceRef.current.style.cursor = "grab";
   };
 
   const handleMouseEnterWrpperSliceRef = (e) => {
-    if(data.length !== 4) {
-      console.log('first')
+    if (data.length !== 4) {
+      console.log("first");
       wrpperSliceRef.current.style.cursor = "grab";
-    }
-    else{
+    } else {
       wrpperSliceRef.current.style.cursor = "default";
     }
   };
@@ -138,7 +138,7 @@ const SectionThrid = () => {
         handleMouseEnterWrpperSliceRef
       );
     };
-  }, [ data ]);
+  }, [data]);
 
   useEffect(() => {
     sliceRef.current.addEventListener(
@@ -162,7 +162,7 @@ const SectionThrid = () => {
     if (nodes.childNodes.length > 0) {
       const maxScrollLeft =
         nodes.childNodes[0].offsetWidth * (nodes.childNodes.length - show);
-      if (walk <= 10 && walk >= -(maxScrollLeft+20)) {
+      if (walk <= 10 && walk >= -(maxScrollLeft + 20)) {
         sliceRef.current.style.left = `${walk}px`;
       }
     }
@@ -172,7 +172,7 @@ const SectionThrid = () => {
     sliceRef.current.style.left = `${0}px`;
   }, [categories]);
 
-  return (
+  return section === "products" ? (
     <Contaienr>
       <WrapperCategory>
         <TitleText fontSize={2.625}>Best Selling Product</TitleText>
@@ -203,6 +203,26 @@ const SectionThrid = () => {
           view more &nbsp; <Arrow height={9} />
         </ButtonViewMore>
       </ViewMore>
+    </Contaienr>
+  ) : (
+    <Contaienr>
+      <WrapperCategory>
+        <TitleText fontSize={1.25} mb={15}>
+          Testimonials
+        </TitleText>
+        <TitleText fontSize={2.625}>Our Client Reviews</TitleText>
+      </WrapperCategory>
+      <WrapperCard ref={wrpperSliceRef}>
+        <InnerSlice ref={sliceRef}>
+          {
+            Array(5)
+              .fill(null)
+              .map((el,index) => (
+                <CardCilent key={`${index}-mock-card-cilent`} />
+              ))
+          }
+        </InnerSlice>
+      </WrapperCard>
     </Contaienr>
   );
 };
